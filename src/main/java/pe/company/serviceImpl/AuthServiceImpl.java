@@ -14,16 +14,20 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public Usuario login(String username, String password) {
 
-        Usuario user = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+        Usuario user = usuarioRepository.findByUsername(username);
 
-        if (!encoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Contraseña incorrecta");
+        if (user == null) {
+            return null;
+        }
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            return null;
         }
 
         return user;

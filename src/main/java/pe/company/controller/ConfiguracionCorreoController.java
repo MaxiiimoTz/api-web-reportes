@@ -3,8 +3,11 @@ package pe.company.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import pe.company.model.ConfiguracionCorreo;
-import pe.company.service.ConfiguracionCorreoService;
+import pe.company.model.*;
+import pe.company.repository.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/configuracion")
@@ -12,18 +15,43 @@ import pe.company.service.ConfiguracionCorreoService;
 public class ConfiguracionCorreoController {
 
     @Autowired
-    private ConfiguracionCorreoService service;
+    private ConfiguracionCorreoRepository configRepository;
 
-    @PostMapping("/{reporteId}")
-    public ConfiguracionCorreo guardar(
-            @PathVariable Integer reporteId,
-            @RequestBody ConfiguracionCorreo config) {
+    @Autowired
+    private DestinatarioRepository destinatarioRepository;
 
-        return service.guardar(reporteId, config);
-    }
+    @Autowired
+    private AdjuntoRepository adjuntoRepository;
 
     @GetMapping("/{reporteId}")
-    public ConfiguracionCorreo obtener(@PathVariable Integer reporteId) {
-        return service.obtener(reporteId);
+    public Map<String, Object> obtenerTodo(@PathVariable Integer reporteId) {
+
+        ConfiguracionCorreo config =
+                configRepository.findByReporte_Id(reporteId);
+
+        List<Destinatario> destinatarios =
+                destinatarioRepository.findByReporte_Id(reporteId);
+
+        List<Adjunto> adjuntos =
+                adjuntoRepository.findByReporte_Id(reporteId);
+
+        return Map.of(
+                "asunto", config != null ? config.getAsunto() : "",
+                "mensaje", config != null ? config.getMensaje() : "",
+
+                "destinatarios",
+                destinatarios.stream()
+                        .filter(d -> d.getTipo().name().equals("PARA"))
+                        .map(Destinatario::getEmail)
+                        .toList(),
+
+                "copias",
+                destinatarios.stream()
+                        .filter(d -> d.getTipo().name().equals("CC"))
+                        .map(Destinatario::getEmail)
+                        .toList(),
+
+                "adjuntos", adjuntos
+        );
     }
 }

@@ -25,4 +25,9 @@ public class ReporteController {
     public Reporte crear(@RequestBody Reporte reporte) {
         return reporteService.crear(reporte);
     }
+    
+    @PutMapping("/{id}")
+    public Reporte actualizar(@PathVariable int id, @RequestBody Reporte reporte) {
+        return reporteService.actualizar(id, reporte);
+    }
 }

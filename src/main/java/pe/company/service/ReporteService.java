@@ -9,5 +9,7 @@ public interface ReporteService {
     List<Reporte> listar();
 
     Reporte crear(Reporte reporte);
+    
+    Reporte actualizar(int id, Reporte reporte);
 
 }

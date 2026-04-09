@@ -16,6 +16,22 @@ public class Reporte {
     private String tipo;
     private String fuente;
 
+    private String medio;
+
+    @Column(name = "tipo_envio")
+    private String tipoEnvio;
+
+    private String frecuencia;
+
+    private String dias;
+
+    @Column(name = "hora_envio")
+    private String horaEnvio;
+
+    // ======================
+    // GETTERS & SETTERS
+    // ======================
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
@@ -33,4 +49,19 @@ public class Reporte {
 
     public String getFuente() { return fuente; }
     public void setFuente(String fuente) { this.fuente = fuente; }
+
+    public String getMedio() { return medio; }
+    public void setMedio(String medio) { this.medio = medio; }
+
+    public String getTipoEnvio() { return tipoEnvio; }
+    public void setTipoEnvio(String tipoEnvio) { this.tipoEnvio = tipoEnvio; }
+
+    public String getFrecuencia() { return frecuencia; }
+    public void setFrecuencia(String frecuencia) { this.frecuencia = frecuencia; }
+
+    public String getDias() { return dias; }
+    public void setDias(String dias) { this.dias = dias; }
+
+    public String getHoraEnvio() { return horaEnvio; }
+    public void setHoraEnvio(String horaEnvio) { this.horaEnvio = horaEnvio; }
 }

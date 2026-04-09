@@ -29,4 +29,27 @@ public class ReporteServiceImpl implements ReporteService {
 
         return reporteRepository.save(reporte);
     }
+    
+    @Override
+    public Reporte actualizar(int id, Reporte data) {
+
+        Reporte r = reporteRepository.findById(id).orElse(null);
+
+        if (r == null) return null;
+
+        r.setNombre(data.getNombre());
+        r.setEstado(data.getEstado());
+        r.setTipo(data.getTipo());
+        r.setFuente(data.getFuente());
+
+        r.setMedio(data.getMedio());
+        r.setTipoEnvio(data.getTipoEnvio());
+        r.setFrecuencia(data.getFrecuencia());
+        r.setDias(data.getDias());
+        r.setHoraEnvio(data.getHoraEnvio());
+
+        return reporteRepository.save(r);
+    }
+    
+  
 }
